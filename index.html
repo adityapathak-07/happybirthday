@@ -8,40 +8,43 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-body { margin:0; font-family:Poppins; overflow:hidden; background:black; color:white; }
+body {
+  margin:0;
+  font-family:Arial;
+  overflow:hidden;
+}
 
 /* INTRO */
 #intro {
-  position:fixed; width:100%; height:100%;
-  display:flex; justify-content:center; align-items:center;
-  background:black; z-index:9999;
-  text-align:center;
-}
-#introText {
-  font-size:2rem;
-  border-right:2px solid white;
-  white-space:nowrap;
-  overflow:hidden;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
 }
 
 /* LOCK */
 #lock {
   display:none;
   height:100vh;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  background:linear-gradient(135deg,#ff758c,#ff7eb3);
 }
 
-/* PAGES */
+/* PAGE */
 .page {
   display:none;
   height:100vh;
-  text-align:center;
   background:linear-gradient(-45deg,#ff6ec4,#7873f5,#ff9a9e,#fad0c4);
   background-size:400% 400%;
   animation:bg 10s infinite;
+  text-align:center;
 }
 
 @keyframes bg {
@@ -51,9 +54,10 @@ body { margin:0; font-family:Poppins; overflow:hidden; background:black; color:w
 }
 
 .center {
-  position:relative;
+  position:absolute;
   top:50%;
-  transform:translateY(-50%);
+  left:50%;
+  transform:translate(-50%,-50%);
 }
 
 /* HEARTS */
@@ -61,10 +65,20 @@ body { margin:0; font-family:Poppins; overflow:hidden; background:black; color:w
   position:fixed;
   bottom:0;
   animation:up 6s linear infinite;
+  z-index:1;
 }
 @keyframes up {
   0%{transform:translateY(0);opacity:1;}
   100%{transform:translateY(-100vh);opacity:0;}
+}
+
+/* CANVAS FIX */
+canvas {
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:0; /* 🔥 IMPORTANT FIX */
+  pointer-events:none; /* 🔥 FIX CLICK ISSUE */
 }
 
 img {
@@ -73,15 +87,6 @@ img {
   margin-top:10px;
 }
 
-button {
-  margin-top:10px;
-  border-radius:25px !important;
-}
-
-canvas {
-  position:fixed;
-  top:0;
-}
 </style>
 </head>
 
@@ -89,20 +94,21 @@ canvas {
 
 <!-- INTRO -->
 <div id="intro">
-  <div id="introText"></div>
+  <h2 id="introText"></h2>
 </div>
 
 <!-- LOCK -->
 <div id="lock" class="d-flex">
   <h2>Enter Password ❤️</h2>
-  <input id="pass" type="password" placeholder="Hint: our special date">
-  <button class="btn btn-light" onclick="unlock()">Unlock</button>
-  <p id="hint"></p>
+  <input id="pass" type="password" placeholder="Enter password">
+  <button class="btn btn-light mt-2" onclick="unlock()">Unlock</button>
+  <p id="error"></p>
 </div>
 
 <!-- PAGE 1 -->
 <div id="p1" class="page">
   <canvas id="fire"></canvas>
+
   <div class="center">
     <h1>Happy Birthday <span id="name"></span> ❤️</h1>
     <p id="type"></p>
@@ -113,7 +119,7 @@ canvas {
 <!-- PAGE 2 -->
 <div id="p2" class="page">
   <div class="center">
-    <h3>Our Memories 📸</h3>
+    <h3>Memories 📸</h3>
     <img id="img" src="img1.jpg">
     <div id="days"></div>
     <button class="btn btn-dark" onclick="go(3)">Next ➡️</button>
@@ -133,13 +139,13 @@ canvas {
 
 <script>
 
-// INTRO TEXT
-const introText="This is for someone very special ❤️";
+// INTRO
+let text="This is for someone special ❤️";
 let i=0;
-function introTyping(){
-  if(i<introText.length){
-    document.getElementById("introText").innerHTML+=introText[i++];
-    setTimeout(introTyping,50);
+function intro(){
+  if(i<text.length){
+    document.getElementById("introText").innerHTML+=text[i++];
+    setTimeout(intro,50);
   } else {
     setTimeout(()=>{
       document.getElementById("intro").style.display="none";
@@ -147,44 +153,42 @@ function introTyping(){
     },1000);
   }
 }
-introTyping();
+intro();
 
 // PASSWORD
 const PASS="01012023";
-let tries=0;
 
 function unlock(){
   let val=document.getElementById("pass").value;
+
   if(val===PASS){
     document.getElementById("lock").style.display="none";
-    start();
+    startApp(); // 🔥 FIXED
   } else {
-    tries++;
-    document.getElementById("hint").innerText =
-      tries>2 ? "Hint: The day we started ❤️" : "Wrong password 😢";
+    document.getElementById("error").innerText="Wrong password 😢";
   }
 }
 
 // START APP
-function start(){
+function startApp(){
   document.getElementById("p1").style.display="block";
 
   const herName="Your Love";
   document.getElementById("name").innerText=herName;
 
   // typing
-  const txt="You are my everything ❤️";
+  let txt="You are my everything ❤️";
   let i=0;
-  function t(){
+  function type(){
     if(i<txt.length){
       document.getElementById("type").innerHTML+=txt[i++];
-      setTimeout(t,40);
+      setTimeout(type,40);
     }
   }
-  t();
+  type();
 
   // slideshow
-  const imgs=["img1.jpg","img2.jpg","img3.jpg"];
+  let imgs=["img1.jpg","img2.jpg","img3.jpg"];
   let idx=0;
   setInterval(()=>{
     idx=(idx+1)%imgs.length;
@@ -192,9 +196,9 @@ function start(){
   },2000);
 
   // timer
-  const startDate=new Date("2023-01-01");
+  let start=new Date("2023-01-01");
   setInterval(()=>{
-    let d=Math.floor((new Date()-startDate)/(1000*60*60*24));
+    let d=Math.floor((new Date()-start)/(1000*60*60*24));
     document.getElementById("days").innerHTML=`❤️ ${d} days together`;
   },1000);
 
@@ -209,14 +213,17 @@ function start(){
   },300);
 
   // fireworks
-  const c=document.getElementById("fire");
-  const ctx=c.getContext("2d");
-  c.width=innerWidth;
-  c.height=innerHeight;
+  let c=document.getElementById("fire");
+  let ctx=c.getContext("2d");
+  c.width=window.innerWidth;
+  c.height=window.innerHeight;
+
   let p=[];
 
   setInterval(()=>{
-    let x=Math.random()*c.width,y=Math.random()*c.height/2;
+    let x=Math.random()*c.width;
+    let y=Math.random()*c.height/2;
+
     for(let i=0;i<40;i++){
       p.push({x,y,a:Math.random()*6.28,s:Math.random()*5,l:100});
     }
@@ -225,18 +232,23 @@ function start(){
   function draw(){
     ctx.fillStyle="rgba(0,0,0,0.2)";
     ctx.fillRect(0,0,c.width,c.height);
+
     p.forEach((e,i)=>{
       e.x+=Math.cos(e.a)*e.s;
       e.y+=Math.sin(e.a)*e.s;
       e.l--;
+
+      ctx.fillStyle="white";
       ctx.fillRect(e.x,e.y,2,2);
-      if(e.l<=0)p.splice(i,1);
+
+      if(e.l<=0) p.splice(i,1);
     });
+
     requestAnimationFrame(draw);
   }
   draw();
 
-  // message
+  // final message
   document.getElementById("finalMsg").innerHTML=
   `My love ❤️<br><br>
    You are my best decision.<br>
@@ -250,7 +262,7 @@ function go(n){
   document.getElementById("p"+n).style.display="block";
 }
 
-// MUSIC (manual click needed for GitHub Pages)
+// MUSIC
 function playMusic(){
   document.getElementById("music").play();
 }
