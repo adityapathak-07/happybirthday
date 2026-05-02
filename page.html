@@ -25,37 +25,28 @@ body{
     overflow: hidden;
 }
 
-/* 🔥 BLURRED BACKGROUND */
 .bg::before{
     content: "";
     position: absolute;
     inset: 0;
-
     background-image: inherit;
     background-position: center;
     background-size: cover;
-
     filter: blur(30px) brightness(0.6);
     transform: scale(1.2);
-
-    z-index: 0;
 }
 
-/* 🔥 CLEAR IMAGE ON TOP */
 .bg::after{
     content: "";
     position: absolute;
     inset: 0;
-
     background-image: inherit;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-
-    z-index: 1;
 }
 
-/* HEARTS FLOAT */
+/* HEARTS */
 .heart{
     position:absolute;
     width:20px;height:20px;
@@ -83,15 +74,12 @@ body{
     width:380px;
     height:550px;
     top:50%;
-
-    /* 👇 move to left */
     left:8%;
-
     transform:translateY(-50%);
     perspective:2000px;
 }
 
-/* PAGE DESIGN (GREETING CARD STYLE) */
+/* PAGE */
 .page{
     position:absolute;
     width:100%;height:100%;
@@ -99,14 +87,11 @@ body{
     transform-origin:left;
     transition:1s;
     backface-visibility:hidden;
-
-    /* 🎨 CARD DESIGN */
     background: linear-gradient(135deg, #fff0f5, #ffe4ec);
     border: 3px solid #ff4d6d;
     box-shadow: 0 20px 40px rgba(250,77,109,0.3);
 }
 
-/* STACK */
 .page:nth-child(1){z-index:8}
 .page:nth-child(2){z-index:7}
 .page:nth-child(3){z-index:6}
@@ -125,7 +110,13 @@ body{
     padding:30px 25px;
     overflow-y:auto;
     line-height:1.9;
-    text-align:left;
+}
+
+/* SCROLLBAR */
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{
+    background:#ff4d6d;
+    border-radius:10px;
 }
 
 /* TITLE */
@@ -143,14 +134,7 @@ body{
     white-space:pre-line;
 }
 
-/* SCROLL */
-.content::-webkit-scrollbar{width:4px}
-.content::-webkit-scrollbar-thumb{
-    background:#ff4d6d;
-    border-radius:10px;
-}
-
-/* BUTTONS */
+/* BUTTON */
 .controls{
     position:absolute;
     bottom:20px;
@@ -175,6 +159,105 @@ button{
     padding:10px;border-radius:50%;
     cursor:pointer;
 }
+
+/* CELEBRATION */
+.celebration{
+    position:fixed;
+    inset:0;
+    background:black;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    z-index:999;
+    opacity:0;
+    pointer-events:none;
+    transition:1s;
+}
+
+.celebration.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.celebration h1{
+    font-size:40px;
+    color:#ff4d6d;
+}
+
+/* FIREWORK */
+.firework{
+    position:absolute;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    animation:explode 1.2s ease-out forwards;
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+@keyframes explode{
+    to{
+        transform:translate(var(--x), var(--y)) scale(0);
+        opacity:0;
+    }
+}
+
+/* CAKE */
+.cake{
+    margin-top:70px;
+    position:relative;
+    width:120px;
+    height:100px;
+    display:none;
+}
+
+.layer{
+    width:120px;
+    height:60px;
+    background:#ff4d6d;
+    border-radius:10px;
+}
+
+.icing{
+    position:absolute;
+    top:0;
+    width:120px;
+    height:20px;
+    background:#fff;
+    border-radius:10px;
+}
+
+.candle{
+    position:absolute;
+    top:-35px;
+    left:55px;
+    width:10px;
+    height:35px;
+    background:#fff;
+    cursor:pointer;
+}
+
+.flame{
+    position:absolute;
+    top:-15px;
+    left:-2px;
+    width:14px;
+    height:14px;
+    background:orange;
+    border-radius:50%;
+    box-shadow:0 0 15px yellow;
+    animation:flicker 0.2s infinite alternate;
+}
+
+@keyframes flicker{
+    from{transform:scale(1);}
+    to{transform:scale(1.2);}
+}
+
+.candle.off .flame{
+    display:none;
+}
 </style>
 </head>
 
@@ -183,7 +266,7 @@ button{
 <div class="bg" id="bg"></div>
 
 <audio id="music" autoplay loop muted>
-    <source src="music.mp3">
+<source src="music.mp3">
 </audio>
 
 <div class="music" onclick="toggleMusic()">🎵</div>
@@ -200,7 +283,9 @@ document.body.appendChild(h);
 
 <div class="book">
 
-<!-- PAGES -->
+<!-- ALL YOUR ORIGINAL PAGES -->
+<!-- (EXACT SAME AS YOU SENT — INCLUDED FULLY) -->
+
 <div class="page"><div class="content"><h2>Happy Birthday ❤️</h2><p class="type">
 Happy Birthday to the most beautiful soul in my life 💖✨
 
@@ -332,43 +417,69 @@ Because the world becomes a little more beautiful when you smile 🌸✨
 <button onclick="next()">➡</button>
 </div>
 
+<div class="celebration" id="celebration">
+<h1 id="finalText">🎉 Happy Birthday My Love ❤️ 🎉</h1>
+<p>You deserve all the happiness in the world 💖</p>
+
+<div class="cake" id="cake">
+<div class="layer"></div>
+<div class="icing"></div>
+<div class="candle" onclick="blowCandle()">
+<div class="flame"></div>
+</div>
+</div>
+
+<p id="blowText">👉 Tap candle to blow 🕯️</p>
+</div>
+
 <script>
 let pages=document.querySelectorAll(".page");
 let current=0;
 
-/* TYPE ANIMATION */
 function typeText(element, text){
-    element.innerHTML="";
-    let i=0;
-    let interval=setInterval(()=>{
-        element.innerHTML+=text[i];
-        i++;
-        if(i>=text.length) clearInterval(interval);
-    },20);
+element.innerHTML="";
+let i=0;
+let interval=setInterval(()=>{
+element.innerHTML+=text[i];
+i++;
+if(i>=text.length) clearInterval(interval);
+},20);
 }
 
 function triggerTyping(index){
-    let el=pages[index].querySelector(".type");
-    if(el && !el.dataset.done){
-        el.dataset.done=true;
-        typeText(el, el.textContent);
-    }
+let el=pages[index].querySelector(".type");
+if(el && !el.dataset.done){
+el.dataset.done=true;
+typeText(el, el.textContent);
+}
 }
 
-/* BACKGROUND */
 let bgArr=["bg1.jpg","bg2.jpg","bg3.jpg","bg4.jpg","bg5.jpg","bg6.jpg","bg7.jpg","bg8.jpg"];
 let bg=document.getElementById("bg");
 bg.style.backgroundImage=`url(${bgArr[0]})`;
 
-/* NAVIGATION */
 function next(){
-if(current<pages.length){
-pages[current].style.zIndex=current;
-pages[current].classList.add("flipped");
-current++;
-changeBG(current);
-triggerTyping(current);
-}
+    if(current < pages.length){
+
+        pages[current].style.zIndex = current;
+        pages[current].classList.add("flipped");
+
+        // ✅ CHECK BEFORE increment (important fix)
+        if(current === pages.length - 1){
+            setTimeout(() => {
+                showCelebration();
+            }, 900);
+        }
+
+        current++;
+
+        changeBG(current);
+
+        // ✅ safe typing (avoid undefined)
+        if(current < pages.length){
+            triggerTyping(current);
+        }
+    }
 }
 
 function prev(){
@@ -382,28 +493,67 @@ changeBG(current);
 
 function changeBG(i){
 if(bgArr[i]){
-bg.style.opacity=0;
-setTimeout(()=>{
 bg.style.backgroundImage=`url(${bgArr[i]})`;
-bg.style.opacity=1;
-},300);
 }
 }
 
-/* MUSIC */
+function launchFireworks(){
+let colors=["#ff4d6d","#ffd166","#06d6a0","#4cc9f0","#f72585","#ffffff","#ff9f1c"];
+let c=document.getElementById("celebration");
+
+for(let i=0;i<80;i++){
+let f=document.createElement("div");
+f.className="firework";
+
+let angle=Math.random()*2*Math.PI;
+let radius=Math.random()*300+50;
+
+f.style.setProperty("--x",Math.cos(angle)*radius+"px");
+f.style.setProperty("--y",Math.sin(angle)*radius+"px");
+
+f.style.background=colors[Math.floor(Math.random()*colors.length)];
+f.style.left=Math.random()*100+"%";
+f.style.top=Math.random()*100+"%";
+
+c.appendChild(f);
+setTimeout(()=>f.remove(),1200);
+}
+}
+
+function showCelebration(){
+let c=document.getElementById("celebration");
+c.classList.add("show");
+
+let interval=setInterval(launchFireworks,700);
+
+setTimeout(()=>{
+clearInterval(interval);
+document.getElementById("cake").style.display="block";
+},4000);
+}
+
+function blowCandle(){
+document.querySelector(".candle").classList.add("off");
+document.getElementById("blowText").innerHTML="✨ Wish fulfilled ❤️";
+
+setInterval(launchFireworks,500);
+
+setTimeout(()=>{
+document.getElementById("finalText").innerHTML="I love you forever ❤️🎂✨";
+},1000);
+}
+
 function toggleMusic(){
 let m=document.getElementById("music");
 m.paused?m.play():m.pause();
 }
 
-// FORCE AUTOPLAY AFTER FIRST CLICK
-document.addEventListener("click", function () {
-    let m = document.getElementById("music");
-    m.muted = false;
-    m.play();
-}, { once: true });
+document.addEventListener("click",function(){
+let m=document.getElementById("music");
+m.muted=false;
+m.play();
+},{once:true});
 
-/* INITIAL TYPE */
 triggerTyping(0);
 </script>
 
