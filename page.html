@@ -113,11 +113,11 @@ color:white;z-index:999;opacity:0;pointer-events:none;transition:1s}
 
 <div class="bg" id="bg"></div>
 
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
+<audio id="music" autoplay loop muted>
+<source src="music.mp3">
 </audio>
 
-<div class="music" onclick="toggleMusic()">▶️</div>
+<div class="music" onclick="toggleMusic()">🎵</div>
 
 <script>
 for(let i=0;i<30;i++){
@@ -290,25 +290,6 @@ let i=0;
 let inter=setInterval(()=>{el.innerHTML+=text[i++];if(i>=text.length)clearInterval(inter)},20);
 }
 
-let isPlaying = false;
-const music = document.getElementById("music");
-
-function toggleMusic() {
-  if (!isPlaying) {
-    music.play().then(() => {
-      isPlaying = true;
-      document.querySelector(".music").innerHTML = "⏸️";
-    }).catch(() => {
-      alert("Tap again to play music 🎵");
-    });
-  } else {
-    music.pause();
-    isPlaying = false;
-    document.querySelector(".music").innerHTML = "▶️";
-  }
-}
-
-
 
 function triggerTyping(i){
 let el=pages[i]?.querySelector(".type");
@@ -439,6 +420,16 @@ setTimeout(()=>{clearInterval(f);clearInterval(r)},10000);
 
 document.getElementById("finalText").innerHTML="I love you forever ❤️🎂✨";
 }
+function toggleMusic(){
+let m=document.getElementById("music");
+m.paused?m.play():m.pause();
+}
+
+document.addEventListener("click",function(){
+let m=document.getElementById("music");
+m.muted=false;
+m.play();
+},{once:true});
 
 triggerTyping(0);
 </script>
