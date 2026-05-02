@@ -132,10 +132,10 @@ body {
 }
 .title .happy, .title .birthday{
     position: relative;
-    text-shadow: 4px 4px var(--color-black), 
-                -4px 4px var(--color-black), 
-                4px -4px var(--color-black), 
-                -4px -4px var(--color-black), 
+    text-shadow: 4px 4px var(--color-black),
+                -4px 4px var(--color-black),
+                4px -4px var(--color-black),
+                -4px -4px var(--color-black),
                 4px 8px 0 var(--color-black);
     font-weight: bold;
     display: flex;
@@ -188,7 +188,7 @@ body {
     border-radius: 50px;
     margin-top: 20px;
     font-family: "Sriracha", cursive;
-    
+
 }
 .date__of__birth{
     border: 3px solid var(--color-black);
@@ -379,7 +379,7 @@ body {
     transform: scale(0);
     background-color: var(--color-black);
     clip-path: polygon(0 50%, 35% 35%, 50% 0, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%);
-    animation: scaleCricle 3s var(--t) forwards, 
+    animation: scaleCricle 3s var(--t) forwards,
             scaleStar 2s 16s infinite ease-in-out;
 }
 .decorate_star.star1{
@@ -560,7 +560,7 @@ body {
         opacity: 1;
         transform: scale(1);
     }
-    
+
 }
 .content__letter .left .heart_1{
     top: 90px;
@@ -756,7 +756,7 @@ body {
     }
 
     .love__img img {
- 
+
             width: 84px;
 
     }
@@ -944,7 +944,7 @@ body {
     100%{
         opacity: 1;
         visibility: visible;
-        padding: 20px 0px 10px 152px; 
+        padding: 20px 0px 10px 152px;
     }
 }
 .boxMail .boxMail-container .card2 h2{
