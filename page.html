@@ -9,12 +9,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-body{
-    font-family:'Poppins',sans-serif;
-    height:100vh;
-    overflow:hidden;
-}
+body{font-family:'Poppins',sans-serif;height:100vh;overflow:hidden}
 
 /* BACKGROUND */
 .bg{
@@ -46,218 +41,71 @@ body{
     background-repeat: no-repeat;
 }
 
-/* HEARTS */
-.heart{
-    position:absolute;
-    width:20px;height:20px;
-    background:red;
-    transform:rotate(45deg);
-    animation:float 6s infinite;
-}
-.heart:before,.heart:after{
-    content:'';
-    position:absolute;
-    width:20px;height:20px;
-    background:red;border-radius:50%;
-}
-.heart:before{top:-10px}
-.heart:after{left:-10px}
-
-@keyframes float{
-    0%{transform:translateY(100vh)}
-    100%{transform:translateY(-10vh)}
-}
+/* HEART FLOAT */
+.heart{position:absolute;width:20px;height:20px;background:red;transform:rotate(45deg);animation:float 6s infinite}
+.heart:before,.heart:after{content:'';position:absolute;width:20px;height:20px;background:red;border-radius:50%}
+.heart:before{top:-10px}.heart:after{left:-10px}
+@keyframes float{0%{transform:translateY(100vh)}100%{transform:translateY(-10vh)}}
 
 /* BOOK */
-.book{
-    position:absolute;
-    width:380px;
-    height:550px;
-    top:50%;
-    left:8%;
-    transform:translateY(-50%);
-    perspective:2000px;
-}
-
-/* PAGE */
-.page{
-    position:absolute;
-    width:100%;height:100%;
-    border-radius:15px;
-    transform-origin:left;
-    transition:1s;
-    backface-visibility:hidden;
-    background: linear-gradient(135deg, #fff0f5, #ffe4ec);
-    border: 3px solid #ff4d6d;
-    box-shadow: 0 20px 40px rgba(250,77,109,0.3);
-}
-
-.page:nth-child(1){z-index:8}
-.page:nth-child(2){z-index:7}
-.page:nth-child(3){z-index:6}
-.page:nth-child(4){z-index:5}
-.page:nth-child(5){z-index:4}
-.page:nth-child(6){z-index:3}
-.page:nth-child(7){z-index:2}
-.page:nth-child(8){z-index:1}
-
+.book{position:absolute;width:380px;height:550px;top:50%;left:8%;transform:translateY(-50%);perspective:2000px}
+.page{position:absolute;width:100%;height:100%;border-radius:15px;transform-origin:left;transition:1s;backface-visibility:hidden;background:linear-gradient(135deg,#fff0f5,#ffe4ec);border:3px solid #ff4d6d;box-shadow:0 20px 40px rgba(250,77,109,0.3)}
+.page:nth-child(1){z-index:8}.page:nth-child(2){z-index:7}.page:nth-child(3){z-index:6}.page:nth-child(4){z-index:5}.page:nth-child(5){z-index:4}.page:nth-child(6){z-index:3}.page:nth-child(7){z-index:2}.page:nth-child(8){z-index:1}
 .page.flipped{transform:rotateY(-180deg)}
 
-/* CONTENT */
-.content{
-    width:100%;
-    height:100%;
-    padding:30px 25px;
-    overflow-y:auto;
-    line-height:1.9;
-}
-
-/* SCROLLBAR */
+.content{width:100%;height:100%;padding:30px 25px;overflow-y:auto;line-height:1.9}
 .content::-webkit-scrollbar{width:4px}
-.content::-webkit-scrollbar-thumb{
-    background:#ff4d6d;
-    border-radius:10px;
-}
+.content::-webkit-scrollbar-thumb{background:#ff4d6d;border-radius:10px}
 
-/* TITLE */
-.content h2{
-    text-align:center;
-    font-family:'Dancing Script';
-    font-size:32px;
-    margin-bottom:15px;
-    color:#ff4d6d;
-}
+.content h2{text-align:center;font-family:'Dancing Script';font-size:32px;margin-bottom:15px;color:#ff4d6d}
+.content p{font-size:16px;white-space:pre-line}
 
-/* TEXT */
-.content p{
-    font-size:16px;
-    white-space:pre-line;
-}
+.controls{position:absolute;bottom:20px;width:100%;text-align:center}
+button{padding:10px 20px;border:none;border-radius:20px;background:#ff4d6d;color:white;cursor:pointer}
 
-/* BUTTON */
-.controls{
-    position:absolute;
-    bottom:20px;
-    width:100%;
-    text-align:center;
-}
+.music{position:absolute;top:20px;right:20px;background:white;padding:10px;border-radius:50%;cursor:pointer}
 
-button{
-    padding:10px 20px;
-    border:none;
-    border-radius:20px;
-    background:#ff4d6d;
-    color:white;
-    cursor:pointer;
-}
-
-/* MUSIC */
-.music{
-    position:absolute;
-    top:20px;right:20px;
-    background:white;
-    padding:10px;border-radius:50%;
-    cursor:pointer;
-}
-
-/* CELEBRATION */
+/* 🌌 CELEBRATION SKY */
 .celebration{
-    position:fixed;
-    inset:0;
-    background:black;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    z-index:999;
-    opacity:0;
-    pointer-events:none;
-    transition:1s;
-}
+position:fixed;inset:0;
+background:radial-gradient(circle at bottom,#020111 0%,#000 80%);
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+color:white;z-index:999;opacity:0;pointer-events:none;transition:1s}
+.celebration.show{opacity:1;pointer-events:auto}
 
-.celebration.show{
-    opacity:1;
-    pointer-events:auto;
-}
+#finalText{font-size:40px;color:#ff4d6d;animation:glow 2s infinite alternate}
+@keyframes glow{from{transform:scale(1)}to{transform:scale(1.05);text-shadow:0 0 25px #ff4d6d}}
 
-.celebration h1{
-    font-size:40px;
-    color:#ff4d6d;
-}
+/* ⭐ STARS */
+.star{position:absolute;width:2px;height:2px;background:white;border-radius:50%;animation:twinkle 2s infinite alternate}
+@keyframes twinkle{from{opacity:0.3}to{opacity:1;transform:scale(1.5)}}
 
-/* FIREWORK */
-.firework{
-    position:absolute;
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    animation:explode 1.2s ease-out forwards;
-    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-}
+/* 💥 FIREWORK */
+.firework{position:absolute;width:6px;height:6px;border-radius:50%;animation:explode 1.2s forwards;box-shadow:0 0 10px currentColor}
+@keyframes explode{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
 
-@keyframes explode{
-    to{
-        transform:translate(var(--x), var(--y)) scale(0);
-        opacity:0;
-    }
-}
+/* ❤️ BURST */
+.heartBurst{position:absolute;width:15px;height:15px;background:#ff4d6d;transform:rotate(45deg);animation:burst 1.5s forwards}
+.heartBurst:before,.heartBurst:after{content:'';position:absolute;width:15px;height:15px;background:#ff4d6d;border-radius:50%}
+.heartBurst:before{top:-7px}.heartBurst:after{left:-7px}
+@keyframes burst{to{transform:translateY(-200px) scale(0);opacity:0}}
 
-/* CAKE */
-.cake{
-    margin-top:70px;
-    position:relative;
-    width:120px;
-    height:100px;
-    display:none;
-}
+/* ✨ SPARK */
+.spark{position:absolute;width:4px;height:4px;background:white;border-radius:50%;animation:spark 1s forwards}
+@keyframes spark{to{transform:translateY(-100px);opacity:0}}
 
-.layer{
-    width:120px;
-    height:60px;
-    background:#ff4d6d;
-    border-radius:10px;
-}
+/* 🚀 ROCKET */
+.rocket{position:absolute;bottom:0;width:3px;height:25px;background:linear-gradient(white,transparent);box-shadow:0 0 10px white;animation:launch 1s linear forwards}
+@keyframes launch{to{transform:translateY(-80vh);opacity:0}}
 
-.icing{
-    position:absolute;
-    top:0;
-    width:120px;
-    height:20px;
-    background:#fff;
-    border-radius:10px;
-}
-
-.candle{
-    position:absolute;
-    top:-35px;
-    left:55px;
-    width:10px;
-    height:35px;
-    background:#fff;
-    cursor:pointer;
-}
-
-.flame{
-    position:absolute;
-    top:-15px;
-    left:-2px;
-    width:14px;
-    height:14px;
-    background:orange;
-    border-radius:50%;
-    box-shadow:0 0 15px yellow;
-    animation:flicker 0.2s infinite alternate;
-}
-
-@keyframes flicker{
-    from{transform:scale(1);}
-    to{transform:scale(1.2);}
-}
-
-.candle.off .flame{
-    display:none;
-}
+/* 🎂 CAKE */
+.cake{margin-top:70px;position:relative;width:120px;height:100px;display:none}
+.layer{width:120px;height:60px;background:#ff4d6d;border-radius:10px}
+.icing{position:absolute;top:0;width:120px;height:20px;background:#fff;border-radius:10px}
+.candle{position:absolute;top:-35px;left:55px;width:10px;height:35px;background:#fff;cursor:pointer}
+.flame{position:absolute;top:-15px;left:-2px;width:14px;height:14px;background:orange;border-radius:50%;box-shadow:0 0 15px yellow;animation:flicker .2s infinite alternate}
+@keyframes flicker{to{transform:scale(1.2)}}
+.candle.off .flame{display:none}
 </style>
 </head>
 
@@ -419,7 +267,7 @@ Because the world becomes a little more beautiful when you smile 🌸✨
 
 <div class="celebration" id="celebration">
 <h1 id="finalText">🎉 Happy Birthday My Love ❤️ 🎉</h1>
-<p>You deserve all the happiness in the world 💖</p>
+<p>You deserve all the happiness 💖</p>
 
 <div class="cake" id="cake">
 <div class="layer"></div>
@@ -436,22 +284,15 @@ Because the world becomes a little more beautiful when you smile 🌸✨
 let pages=document.querySelectorAll(".page");
 let current=0;
 
-function typeText(element, text){
-element.innerHTML="";
+function typeText(el,text){
+el.innerHTML="";
 let i=0;
-let interval=setInterval(()=>{
-element.innerHTML+=text[i];
-i++;
-if(i>=text.length) clearInterval(interval);
-},20);
+let inter=setInterval(()=>{el.innerHTML+=text[i++];if(i>=text.length)clearInterval(inter)},20);
 }
 
-function triggerTyping(index){
-let el=pages[index].querySelector(".type");
-if(el && !el.dataset.done){
-el.dataset.done=true;
-typeText(el, el.textContent);
-}
+function triggerTyping(i){
+let el=pages[i]?.querySelector(".type");
+if(el && !el.dataset.done){el.dataset.done=true;typeText(el,el.textContent)}
 }
 
 let bgArr=["bg1.jpg","bg2.jpg","bg3.jpg","bg4.jpg","bg5.jpg","bg6.jpg","bg7.jpg","bg8.jpg"];
@@ -497,24 +338,61 @@ bg.style.backgroundImage=`url(${bgArr[i]})`;
 }
 }
 
-function launchFireworks(){
-let colors=["#ff4d6d","#ffd166","#06d6a0","#4cc9f0","#f72585","#ffffff","#ff9f1c"];
-let c=document.getElementById("celebration");
 
+function createStars(){
+let c=document.getElementById("celebration");
+for(let i=0;i<120;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+c.appendChild(s);
+}
+}
+
+function launchFireworks(){
+let c=document.getElementById("celebration");
 for(let i=0;i<80;i++){
 let f=document.createElement("div");
 f.className="firework";
-
-let angle=Math.random()*2*Math.PI;
-let radius=Math.random()*300+50;
-
-f.style.setProperty("--x",Math.cos(angle)*radius+"px");
-f.style.setProperty("--y",Math.sin(angle)*radius+"px");
-
-f.style.background=colors[Math.floor(Math.random()*colors.length)];
+let a=Math.random()*2*Math.PI;
+let r=Math.random()*300;
+f.style.setProperty("--x",Math.cos(a)*r+"px");
+f.style.setProperty("--y",Math.sin(a)*r+"px");
+f.style.background="hsl("+Math.random()*360+",100%,60%)";
 f.style.left=Math.random()*100+"%";
 f.style.top=Math.random()*100+"%";
+c.appendChild(f);
+setTimeout(()=>f.remove(),1200);
+}
+}
 
+function launchRocket(){
+let c=document.getElementById("celebration");
+let left=Math.random()*100;
+let rocket=document.createElement("div");
+rocket.className="rocket";
+rocket.style.left=left+"%";
+c.appendChild(rocket);
+
+setTimeout(()=>{
+rocket.remove();
+explodeAt(left+"%","20%");
+},1000);
+}
+
+function explodeAt(x,y){
+let c=document.getElementById("celebration");
+for(let i=0;i<60;i++){
+let f=document.createElement("div");
+f.className="firework";
+let a=Math.random()*2*Math.PI;
+let r=Math.random()*250;
+f.style.setProperty("--x",Math.cos(a)*r+"px");
+f.style.setProperty("--y",Math.sin(a)*r+"px");
+f.style.background="hsl("+Math.random()*360+",100%,60%)";
+f.style.left=x;
+f.style.top=y;
 c.appendChild(f);
 setTimeout(()=>f.remove(),1200);
 }
@@ -523,36 +401,24 @@ setTimeout(()=>f.remove(),1200);
 function showCelebration(){
 let c=document.getElementById("celebration");
 c.classList.add("show");
+createStars();
 
-let interval=setInterval(launchFireworks,700);
+let f=setInterval(launchFireworks,800);
+let r=setInterval(launchRocket,600);
 
-setTimeout(()=>{
-clearInterval(interval);
-document.getElementById("cake").style.display="block";
-},4000);
+setTimeout(()=>{clearInterval(f);document.getElementById("cake").style.display="block"},4000);
 }
 
 function blowCandle(){
 document.querySelector(".candle").classList.add("off");
-document.getElementById("blowText").innerHTML="✨ Wish fulfilled ❤️";
 
-setInterval(launchFireworks,500);
+let f=setInterval(launchFireworks,300);
+let r=setInterval(launchRocket,400);
 
-setTimeout(()=>{
+setTimeout(()=>{clearInterval(f);clearInterval(r)},10000);
+
 document.getElementById("finalText").innerHTML="I love you forever ❤️🎂✨";
-},1000);
 }
-
-function toggleMusic(){
-let m=document.getElementById("music");
-m.paused?m.play():m.pause();
-}
-
-document.addEventListener("click",function(){
-let m=document.getElementById("music");
-m.muted=false;
-m.play();
-},{once:true});
 
 triggerTyping(0);
 </script>
