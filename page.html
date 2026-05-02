@@ -113,9 +113,11 @@ color:white;z-index:999;opacity:0;pointer-events:none;transition:1s}
 
 <div class="bg" id="bg"></div>
 
-<audio id="music" autoplay loop muted>
-<source src="music.mp3">
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
 </audio>
+
+<div class="music" onclick="toggleMusic()">▶️</div>
 
 <div class="music" onclick="toggleMusic()">🎵</div>
 
@@ -289,6 +291,28 @@ el.innerHTML="";
 let i=0;
 let inter=setInterval(()=>{el.innerHTML+=text[i++];if(i>=text.length)clearInterval(inter)},20);
 }
+
+let isPlaying = false;
+const music = document.getElementById("music");
+
+function toggleMusic() {
+  if (!isPlaying) {
+    music.play().then(() => {
+      isPlaying = true;
+      document.querySelector(".music").innerHTML = "⏸️";
+    }).catch(() => {
+      alert("Tap again to play music 🎵");
+    });
+  } else {
+    music.pause();
+    isPlaying = false;
+    document.querySelector(".music").innerHTML = "▶️";
+  }
+}
+
+document.body.addEventListener("click", () => {
+  music.play();
+}, { once: true });
 
 function triggerTyping(i){
 let el=pages[i]?.querySelector(".type");
