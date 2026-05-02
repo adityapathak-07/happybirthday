@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Book</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:'Poppins',sans-serif;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* BACKGROUND */
+.bg{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+/* 🔥 BLURRED BACKGROUND */
+.bg::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image: inherit;
+    background-position: center;
+    background-size: cover;
+
+    filter: blur(30px) brightness(0.6);
+    transform: scale(1.2);
+
+    z-index: 0;
+}
+
+/* 🔥 CLEAR IMAGE ON TOP */
+.bg::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image: inherit;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    z-index: 1;
+}
+
+/* HEARTS FLOAT */
+.heart{
+    position:absolute;
+    width:20px;height:20px;
+    background:red;
+    transform:rotate(45deg);
+    animation:float 6s infinite;
+}
+.heart:before,.heart:after{
+    content:'';
+    position:absolute;
+    width:20px;height:20px;
+    background:red;border-radius:50%;
+}
+.heart:before{top:-10px}
+.heart:after{left:-10px}
+
+@keyframes float{
+    0%{transform:translateY(100vh)}
+    100%{transform:translateY(-10vh)}
+}
+
+/* BOOK */
+.book{
+    position:absolute;
+    width:380px;
+    height:550px;
+    top:50%;
+
+    /* 👇 move to left */
+    left:8%;
+
+    transform:translateY(-50%);
+    perspective:2000px;
+}
+
+/* PAGE DESIGN (GREETING CARD STYLE) */
+.page{
+    position:absolute;
+    width:100%;height:100%;
+    border-radius:15px;
+    transform-origin:left;
+    transition:1s;
+    backface-visibility:hidden;
+
+    /* 🎨 CARD DESIGN */
+    background: linear-gradient(135deg, #fff0f5, #ffe4ec);
+    border: 3px solid #ff4d6d;
+    box-shadow: 0 20px 40px rgba(250,77,109,0.3);
+}
+
+/* STACK */
+.page:nth-child(1){z-index:8}
+.page:nth-child(2){z-index:7}
+.page:nth-child(3){z-index:6}
+.page:nth-child(4){z-index:5}
+.page:nth-child(5){z-index:4}
+.page:nth-child(6){z-index:3}
+.page:nth-child(7){z-index:2}
+.page:nth-child(8){z-index:1}
+
+.page.flipped{transform:rotateY(-180deg)}
+
+/* CONTENT */
+.content{
+    width:100%;
+    height:100%;
+    padding:30px 25px;
+    overflow-y:auto;
+    line-height:1.9;
+    text-align:left;
+}
+
+/* TITLE */
+.content h2{
+    text-align:center;
+    font-family:'Dancing Script';
+    font-size:32px;
+    margin-bottom:15px;
+    color:#ff4d6d;
+}
+
+/* TEXT */
+.content p{
+    font-size:16px;
+    white-space:pre-line;
+}
+
+/* SCROLL */
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{
+    background:#ff4d6d;
+    border-radius:10px;
+}
+
+/* BUTTONS */
+.controls{
+    position:absolute;
+    bottom:20px;
+    width:100%;
+    text-align:center;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+}
+
+/* MUSIC */
+.music{
+    position:absolute;
+    top:20px;right:20px;
+    background:white;
+    padding:10px;border-radius:50%;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg" id="bg"></div>
+
+<audio id="music" autoplay loop muted>
+    <source src="music.mp3">
+</audio>
+
+<div class="music" onclick="toggleMusic()">🎵</div>
+
+<script>
+for(let i=0;i<30;i++){
+let h=document.createElement('div');
+h.className='heart';
+h.style.left=Math.random()*100+'%';
+h.style.animationDuration=(3+Math.random()*3)+'s';
+document.body.appendChild(h);
+}
+</script>
+
+<div class="book">
+
+<!-- PAGES -->
+<div class="page"><div class="content"><h2>Happy Birthday ❤️</h2><p class="type">
+Happy Birthday to the most beautiful soul in my life 💖✨
+
+From the past 7 years, you have been my strength, my peace, and my happiness 🫶
+Every single moment with you has been something I will always cherish deeply 🥺❤️
+You didn’t just come into my life…
+you slowly became my entire world 💫
+
+Your presence has a way of making everything feel lighter, calmer, and more meaningful 🌸
+Even the simplest moments with you turned into memories I will carry forever 🥹
+Today is your day, and I just want you to feel how special you truly are 💖
+Because someone like you doesn’t come into life twice ❤️
+</p></div></div>
+
+<div class="page"><div class="content"><h2>You Mean Everything 💖</h2><p class="type">
+Every moment with you feels like magic 🌙✨
+
+The way you smile… the way you talk… the way you care —
+everything about you has a warmth that can’t be explained 🥹💖
+
+Even on my worst days, just thinking about you brings me peace 💫
+You have this quiet power of making everything feel okay again ❤️
+
+You are not just someone I love…
+you are someone I admire deeply, someone I respect, someone I’m grateful for every single day 🫶
+
+And honestly…
+being a part of your life has always been one of the most beautiful feelings I’ve ever experienced 🌸
+</p></div></div>
+
+<div class="page"><div class="content"><h2>Memories 💞</h2><p class="type">
+All the memories we created together are my biggest treasure 🫂💖
+
+Every laugh, every late-night conversation, every small silly moment…
+they all live inside my heart like something priceless ❤️
+
+Sometimes I sit quietly and relive those memories…
+and they still feel just as real, just as beautiful, just as alive 🥺✨
+
+Those moments may have passed…
+but their feeling never did 💫
+
+And no matter where life takes us,
+those memories will always remain a part of me ❤️
+</p></div></div>
+
+<div class="page"><div class="content"><h2>Your Journey 🌸</h2><p class="type">
+Seeing you grow into such a strong, independent, and amazing person makes me truly proud 🥹✨
+
+You’ve faced challenges, handled situations, and still stayed kind and beautiful from inside 🌍💖
+
+Not everyone has the strength that you have…
+and that’s what makes you so special 🌸
+
+You deserve every bit of happiness, every success, and every dream coming true 💫
+
+And I genuinely hope life gives you everything you’ve ever wished for…
+because you deserve nothing less than the best ❤️
+</p></div></div>
+
+<div class="page"><div class="content"><h2>I’m Sorry 💔</h2><p class="type">
+I know I made mistakes… and I couldn’t always give you the happiness you truly deserved 😔💔
+
+For that, I am deeply sorry… not just in words, but from my heart 🥺
+
+There were moments where I should have been better…
+and I accept that I wasn’t always right
+
+But one thing I want you to always remember…
+my love for you was never fake, never temporary, never selfish ❤️
+
+Even when things weren’t perfect…
+my feelings for you remained real and honest 💫
+
+And that is something that will never change 🥺
+</p></div></div>
+
+<div class="page"><div class="content"><h2>Unspoken 💭</h2><p class="type">
+Some feelings are too deep to explain… 💭
+
+Even silence carries your name somewhere inside my heart 🥺💖
+
+There are emotions I never fully expressed,
+words I never said,
+and moments I wish I could relive again 💫
+
+But even without saying everything…
+you’ve always understood something within me ❤️
+
+No matter how much time passes…
+a part of me will always stay connected to you 🌸
+</p></div></div>
+
+<div class="page"><div class="content"><h2>No Matter What 💫</h2><p class="type">
+Even if life takes us in different directions…
+you will always remain special to me ❤️
+
+Because some people are not just memories…
+they become a part of who we are 💖
+
+You are one of those rare people who changed my life without even trying 🥺
+
+And no matter what happens next…
+that will always mean something
+
+You will always be someone I respect, care for, and silently wish happiness for 💫
+</p></div></div>
+
+<div class="page"><div class="content"><h2>Forever ❤️</h2><p class="type">
+I will always pray for your happiness, your success, and your beautiful future 🌸✨
+
+May your life be filled with smiles, peace, love, and everything your heart truly desires 💖
+
+May every dream you see come true…
+and may every step you take lead you to something better 💫
+
+Happy Birthday once again 🎂❤️
+
+Stay happy… stay strong…
+and keep shining the way you always do 🥺💖
+
+Because the world becomes a little more beautiful when you smile 🌸✨
+</p></div></div>
+
+</div>
+
+<div class="controls">
+<button onclick="prev()">⬅</button>
+<button onclick="next()">➡</button>
+</div>
+
+<script>
+let pages=document.querySelectorAll(".page");
+let current=0;
+
+/* TYPE ANIMATION */
+function typeText(element, text){
+    element.innerHTML="";
+    let i=0;
+    let interval=setInterval(()=>{
+        element.innerHTML+=text[i];
+        i++;
+        if(i>=text.length) clearInterval(interval);
+    },20);
+}
+
+function triggerTyping(index){
+    let el=pages[index].querySelector(".type");
+    if(el && !el.dataset.done){
+        el.dataset.done=true;
+        typeText(el, el.textContent);
+    }
+}
+
+/* BACKGROUND */
+let bgArr=["bg1.jpg","bg2.jpg","bg3.jpg","bg4.jpg","bg5.jpg","bg6.jpg","bg7.jpg","bg8.jpg"];
+let bg=document.getElementById("bg");
+bg.style.backgroundImage=`url(${bgArr[0]})`;
+
+/* NAVIGATION */
+function next(){
+if(current<pages.length){
+pages[current].style.zIndex=current;
+pages[current].classList.add("flipped");
+current++;
+changeBG(current);
+triggerTyping(current);
+}
+}
+
+function prev(){
+if(current>0){
+current--;
+pages[current].classList.remove("flipped");
+pages[current].style.zIndex=pages.length-current;
+changeBG(current);
+}
+}
+
+function changeBG(i){
+if(bgArr[i]){
+bg.style.opacity=0;
+setTimeout(()=>{
+bg.style.backgroundImage=`url(${bgArr[i]})`;
+bg.style.opacity=1;
+},300);
+}
+}
+
+/* MUSIC */
+function toggleMusic(){
+let m=document.getElementById("music");
+m.paused?m.play():m.pause();
+}
+
+// FORCE AUTOPLAY AFTER FIRST CLICK
+document.addEventListener("click", function () {
+    let m = document.getElementById("music");
+    m.muted = false;
+    m.play();
+}, { once: true });
+
+/* INITIAL TYPE */
+triggerTyping(0);
+</script>
+
+</body>
+</html>
